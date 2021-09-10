@@ -1,15 +1,15 @@
 import addDays from "date-fns/addDays";
 import { Lesson, ScheduleDTO, Weekday } from "../types";
-import { getWeekMonday, getWeekParity } from "../utils";
+import { getWeekMonday, getWeekParity, transliterate } from "../utils";
 
 class WeekdaysApi {
   private schedule: Record<string, ScheduleDTO> = {};
 
   public async getWeek(startDate: Date, groupName: string): Promise<Weekday[]> {
-    const schedule = (await this.getSchedule(groupName)).schedule;
+    const scheduleDTO = await this.getSchedule(groupName);
 
     return this.generateWeekdays(
-      schedule,
+      scheduleDTO,
       getWeekMonday(startDate),
       getWeekParity(startDate)
     );
@@ -22,7 +22,7 @@ class WeekdaysApi {
   }
 
   private generateWeekdays(
-    schedule: ScheduleDTO["schedule"],
+    schedule: ScheduleDTO,
     monday: Date,
     weekParity: number
   ): Weekday[] {
@@ -37,28 +37,35 @@ class WeekdaysApi {
   }
 
   private generateCurrentWeekdayLessons(
-    schedule: ScheduleDTO["schedule"],
+    schedule: ScheduleDTO,
     day: Date,
     weekParity: number
   ) {
-    return schedule[day.getDay() as 1 | 2 | 3 | 4 | 5 | 6].lessons.reduce(
-      (all, cur, index) => {
-        const lesson: Lesson = cur
-          .filter((lesson) => lesson.weeks[0] % 2 === weekParity)
-          .map((lesson) => ({
-            name: lesson.name,
-            id: day.getTime() + lesson.name + index,
-            type: { лк: "lection", пр: "practice", "лаб\nлаб": "lab" }[
-              lesson.types
-            ] as Lesson["type"],
-            time: `${lesson.time_start}-${lesson.time_end}`,
-            adress: lesson.rooms.join(" "),
-          }))[0];
+    return schedule.schedule[
+      day.getDay() as 1 | 2 | 3 | 4 | 5 | 6
+    ].lessons.reduce((all, cur) => {
+      const lesson: Lesson = cur
+        .filter((lesson) => lesson.weeks[0] % 2 === weekParity)
+        .map((lesson) => ({
+          name: lesson.name,
+          id: this.generateLessonId(
+            day,
+            schedule.group,
+            `${lesson.time_start}-${lesson.time_end}`
+          ),
+          type: { лк: "lection", пр: "practice", "лаб\nлаб": "lab" }[
+            lesson.types
+          ] as Lesson["type"],
+          time: `${lesson.time_start}-${lesson.time_end}`,
+          adress: lesson.rooms.join(" "),
+        }))[0];
 
-        return lesson ? [...all, lesson] : all;
-      },
-      [] as Lesson[]
-    );
+      return lesson ? [...all, lesson] : all;
+    }, [] as Lesson[]);
+  }
+
+  private generateLessonId(day: Date, groupName: string, time: string) {
+    return day.toISOString() + transliterate(groupName) + time;
   }
 
   async getSchedule(groupName: string): Promise<ScheduleDTO> {
