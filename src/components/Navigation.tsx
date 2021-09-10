@@ -2,7 +2,8 @@ import { Collapse } from "bootstrap";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import weekdaysApi from "../api/weekdaysApi";
 
 const Navigation: React.FC<{}> = () => {
   const navbarMobileRef = useRef<HTMLDivElement>(null);
@@ -19,21 +20,37 @@ const Navigation: React.FC<{}> = () => {
       );
   }, [navbarMobileRef]);
 
-  const match = useRouteMatch();
+  const location = useLocation();
 
   useEffect(() => {
     collapse && collapse.hide();
-  }, [match.path, collapse]);
+  }, [location.pathname, collapse]);
+
+  const revalidate = async () => {
+    await weekdaysApi.revalidate("ИНБО-01-21");
+    window.location.reload();
+  };
 
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark"
-      style={{ backgroundColor: "var(--primary-color)" }}
+      style={{ backgroundColor: "var(--bs-primary)" }}
     >
       <div className="container">
-        <a className="navbar-brand" href="/#">
-          ИНБО-01-21
-        </a>
+        <div className="d-flex align-tems-center">
+          <button
+            type="button"
+            className="btn"
+            onClick={revalidate}
+            style={{ backgroundColor: "var(--bs-primary)", color: "white" }}
+          >
+            <i className="bi bi-arrow-repeat"></i>
+          </button>
+          <a className="navbar-brand" href="/">
+            ИНБО-01-21
+          </a>
+        </div>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -44,10 +61,18 @@ const Navigation: React.FC<{}> = () => {
         </button>
         <div className="collapse navbar-collapse" ref={navbarMobileRef}>
           <div className="navbar-nav">
-            <Link to="/" className="nav-link">
+            <Link
+              to="/"
+              className={`nav-link ${location.pathname === "/" && "active"}`}
+            >
               Расписание
             </Link>
-            <Link to="/edit" className="nav-link">
+            <Link
+              to="/edit"
+              className={`nav-link ${
+                location.pathname === "/edit" && "active"
+              }`}
+            >
               Изменить
             </Link>
           </div>
