@@ -3,9 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import weekdaysApi from "../api/weekdaysApi";
 
-const Navigation: React.FC<{}> = () => {
+const Navigation: React.FC = () => {
   const navbarMobileRef = useRef<HTMLDivElement>(null);
   const [collapse, setCollapse] = useState<Collapse | null>(null);
 
@@ -26,30 +25,15 @@ const Navigation: React.FC<{}> = () => {
     collapse && collapse.hide();
   }, [location.pathname, collapse]);
 
-  const revalidate = async () => {
-    await weekdaysApi.revalidate("ИНБО-01-21");
-    window.location.reload();
-  };
-
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark"
       style={{ backgroundColor: "var(--bs-primary)" }}
     >
       <div className="container">
-        <div className="d-flex align-tems-center">
-          <button
-            type="button"
-            className="btn"
-            onClick={revalidate}
-            style={{ backgroundColor: "var(--bs-primary)", color: "white" }}
-          >
-            <i className="bi bi-arrow-repeat"></i>
-          </button>
-          <a className="navbar-brand" href="/">
-            ИНБО-01-21
-          </a>
-        </div>
+        <a className="navbar-brand" href="/">
+          ИНБО-01-21
+        </a>
 
         <button
           className="navbar-toggler"
@@ -68,12 +52,12 @@ const Navigation: React.FC<{}> = () => {
               Расписание
             </Link>
             <Link
-              to="/edit"
+              to="/login"
               className={`nav-link ${
-                location.pathname === "/edit" && "active"
+                location.pathname === "/login" && "active"
               }`}
             >
-              Изменить
+              Войти
             </Link>
           </div>
         </div>
