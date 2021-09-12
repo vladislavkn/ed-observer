@@ -116,3 +116,21 @@ export const transliterate = (word: string) => {
 
   return answer;
 };
+
+export const createEventEmmiter = () => {
+  const listeners = new Map<string, Set<(...args: any[]) => any>>();
+
+  const subscribe = (event: string, callback: (...args: any[]) => void) => {
+    if (!listeners.has(event)) listeners.set(event, new Set());
+    listeners.get(event)?.add(callback);
+
+    return () => {
+      listeners.get(event)?.delete(callback);
+    };
+  };
+
+  const emit = (event: string, ...args: any[]) =>
+    listeners.get(event)?.forEach((listener) => listener(...args));
+
+  return { subscribe, emit };
+};
