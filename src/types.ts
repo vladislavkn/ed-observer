@@ -40,3 +40,8 @@ export type ScheduleDTO = {
     6: ScheduleDayDTO;
   };
 };
+
+export type Homework = {
+  userId: string;
+  text: string;
+};
