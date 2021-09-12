@@ -1,7 +1,7 @@
 import { Weekday } from "../types";
 import { formatDayAndMonth, formatWeekDay } from "../utils";
 import AppEmptyFallback from "./AppEmptyFallback";
-import WeekdayLessonCard from "./WeekdayLessonCard";
+import WeekdayCardLesson from "./WeekdayCardLesson";
 
 const WeekdayCard: React.FC<{
   weekday: Weekday;
@@ -17,7 +17,7 @@ const WeekdayCard: React.FC<{
     <div>
       {weekday.lessons.map((lesson) => (
         <div className="mb-2" key={lesson.id}>
-          <WeekdayLessonCard lesson={lesson} />
+          <WeekdayCardLesson lesson={lesson} />
         </div>
       ))}
       {weekday.lessons.length === 0 && (
