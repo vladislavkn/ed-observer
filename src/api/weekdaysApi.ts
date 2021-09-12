@@ -1,10 +1,9 @@
 import addDays from "date-fns/addDays";
+import inMemoryCache from "../inMemoryCache";
 import { Lesson, ScheduleDTO, Weekday } from "../types";
 import { getWeekMonday, getWeekParity, transliterate } from "../utils";
 
 class WeekdaysApi {
-  private schedule: Record<string, ScheduleDTO> = {};
-
   public async getWeek(startDate: Date, groupName: string): Promise<Weekday[]> {
     const scheduleDTO = await this.getSchedule(groupName);
 
@@ -16,9 +15,9 @@ class WeekdaysApi {
   }
 
   public async revalidate(groupName: string) {
-    if (this.schedule[groupName]) delete this.schedule[groupName];
-
-    await this.getSchedule(groupName);
+    inMemoryCache.revalidateAsync(groupName, () =>
+      this.fetchSchedule(groupName)
+    );
   }
 
   private generateWeekdays(
@@ -65,24 +64,15 @@ class WeekdaysApi {
   }
 
   private generateLessonId(day: Date, groupName: string, time: string) {
-    return day.toISOString() + transliterate(groupName) + time;
+    return `${day.getDate()}_${day.getMonth()}_${day.getFullYear()}_${transliterate(
+      groupName
+    )}_${time}`;
   }
 
-  async getSchedule(groupName: string): Promise<ScheduleDTO> {
-    if (this.schedule[groupName]) return this.schedule[groupName];
-
-    let cachedSchedule = localStorage.getItem(`schedule_${groupName}`);
-    if (cachedSchedule) {
-      this.schedule[groupName] = JSON.parse(cachedSchedule);
-    } else {
-      this.schedule[groupName] = await this.fetchSchedule(groupName);
-      localStorage.setItem(
-        `schedule_${groupName}`,
-        JSON.stringify(this.schedule[groupName])
-      );
-    }
-
-    return this.schedule[groupName];
+  getSchedule(groupName: string): Promise<ScheduleDTO> {
+    return inMemoryCache.getAsync(groupName, () =>
+      this.fetchSchedule(groupName)
+    );
   }
 
   private async fetchSchedule(groupName: string): Promise<ScheduleDTO> {
