@@ -1,23 +1,29 @@
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
+import { UserProvider } from "./context/userContext";
 import LoginPage from "./pages/LoginPage";
 import WeekdaysPage from "./pages/WeekdaysPage";
 
 function App() {
   return (
-    <div className="App">
+    <UserProvider>
       <BrowserRouter>
         <Navigation />
-
         <Switch>
           <Route path="/login" component={LoginPage} />
-          <Route path="/edit">
-            <Redirect to="/login" />
-          </Route>
           <Route path="/" component={WeekdaysPage} />
         </Switch>
+        <Footer />
       </BrowserRouter>
-    </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        pauseOnHover
+      />
+    </UserProvider>
   );
 }
 
