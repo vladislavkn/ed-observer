@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { isEmpty } from "../utils";
 import AppEmptyFallback from "./AppEmptyFallback";
-import AppErrorFallback from "./AppErrorfallback";
+import AppErrorFallback from "./AppErrorFallback";
 import AppLoadingFallback from "./AppLoadingFallback";
 
 type AppLoadProps<T extends object | Array<any>> = {
@@ -33,6 +33,7 @@ function AppLoad<T extends object | Array<any>>(props: AppLoadProps<T>) {
       })
       .catch((e: Error) => {
         setError(e);
+        console.error(e);
       })
       .finally(() => setIsLoading(false));
   }, [fetcher]);
