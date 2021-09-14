@@ -1,15 +1,41 @@
+import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
+import { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { removeUser, setUserFailture, setUserSuccess } from "./actions/user";
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
-import { UserProvider } from "./context/userContext";
+import { auth } from "./firebase";
 import LoginPage from "./pages/LoginPage";
 import WeekdaysPage from "./pages/WeekdaysPage";
+import store from "./store";
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    onAuthStateChanged(
+      auth,
+      (user) => {
+        if (user) {
+          toast.success(`Вы вошли в аккаунт как ${user.email}`);
+          dispatch(setUserSuccess(user));
+        } else {
+          toast.success(`Вы успешно вышли из аккаунта`);
+          dispatch(removeUser());
+        }
+      },
+      (error: Error) => {
+        toast.error(`Ошибка: ${error.message}`);
+        dispatch(setUserFailture(error));
+      }
+    );
+  });
+
   return (
-    <UserProvider>
+    <Provider store={store}>
       <BrowserRouter>
         <Navigation />
         <Switch>
@@ -24,7 +50,7 @@ const App: React.FC = () => {
         hideProgressBar={true}
         pauseOnHover
       />
-    </UserProvider>
+    </Provider>
   );
 };
 
