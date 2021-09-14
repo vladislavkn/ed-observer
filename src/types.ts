@@ -1,3 +1,5 @@
+import { Action } from "redux";
+
 export type Lesson = {
   name: string;
   id: string;
@@ -44,4 +46,28 @@ export type ScheduleDTO = {
 export type Homework = {
   userId: string;
   text: string;
+};
+
+export type CommonScheduleDayLesson = {
+  name: string;
+  id: string;
+  type: "lection" | "practice" | "lab";
+  time: string;
+  teacher?: string;
+  adress?: string;
+  homework?: string;
+  order?: number;
+};
+
+export type CommonScheduleDay = CommonScheduleDayLesson[];
+
+export type Schedule = CommonScheduleDay[];
+
+export type CommonSchedule = {
+  odd: Schedule;
+  even: Schedule;
+};
+
+export type ActionWithPayload<A, T> = Action<A> & {
+  payload: T;
 };
