@@ -1,6 +1,6 @@
 import authApi from "../api/authApi";
 import { homeworkEmmiter } from "../emmiters";
-import { useUser } from "../context/userContext";
+import { useUser } from "../selectors/user";
 
 const EditPagePanel: React.FC = () => {
   const user = useUser();

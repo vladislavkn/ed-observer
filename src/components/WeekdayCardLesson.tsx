@@ -4,7 +4,7 @@ import homeworkApi from "../api/homeworkApi";
 import { homeworkEmmiter } from "../emmiters";
 import { Lesson } from "../types";
 import Linkify from "react-linkify";
-import { useUser } from "../context/userContext";
+import { useUser } from "../selectors/user";
 
 const WeekdayLessonCard: React.FC<{ lesson: Lesson }> = ({ lesson }) => {
   const [homeworkText, setHomeworkText] = useState("");
