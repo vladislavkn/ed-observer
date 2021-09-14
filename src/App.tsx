@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/Footer";
@@ -6,7 +7,7 @@ import { UserProvider } from "./context/userContext";
 import LoginPage from "./pages/LoginPage";
 import WeekdaysPage from "./pages/WeekdaysPage";
 
-function App() {
+const App: React.FC = () => {
   return (
     <UserProvider>
       <BrowserRouter>
@@ -25,6 +26,6 @@ function App() {
       />
     </UserProvider>
   );
-}
+};
 
 export default App;
