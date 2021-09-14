@@ -12,7 +12,7 @@ class InMemoryCache {
   }
 
   public async set<T>(key: string, value: T) {
-    this.persisted[key].value = value;
+    this.persisted[key] = value;
   }
 
   public async revalidateAsync<T>(key: string, fetcher: () => Promise<T>) {
