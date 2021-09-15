@@ -37,10 +37,23 @@ export default function scheduleReducer(
         error: action.payload as Error,
         loading: false,
       };
-    case ScheduleActions.START_COMMON_SCHEDULE_LOAD:
+    case ScheduleActions.START_LOAD:
       return { ...state, error: null, loading: true };
-    case ScheduleActions.SET_SCHEDULE:
-      return { ...state, schedule: action.payload as Schedule };
+    case ScheduleActions.SET_SCHEDULE_SUCCESS:
+      return {
+        ...state,
+        schedule: action.payload as Schedule,
+        error: null,
+        loading: false,
+      };
+
+    case ScheduleActions.SET_SCHEDULE_FAILTURE:
+      return {
+        ...state,
+        schedule: null,
+        error: action.payload as Error,
+        loading: false,
+      };
     default:
       return state;
   }

@@ -3,8 +3,9 @@ import { CommonSchedule, Schedule } from "../types";
 export enum ScheduleActions {
   SET_COMMON_SCHEDULE_SUCCESS,
   SET_COMMON_SCHEDULE_FAILTURE,
-  SET_SCHEDULE,
-  START_COMMON_SCHEDULE_LOAD,
+  SET_SCHEDULE_SUCCESS,
+  SET_SCHEDULE_FAILTURE,
+  START_LOAD,
 }
 
 export const setCommonScheduleSuccess = (commonSchedule: CommonSchedule) => ({
@@ -17,11 +18,16 @@ export const setCommonScheduleFailture = (error: Error) => ({
   payload: error,
 });
 
-export const setSchedule = (schedule: Schedule) => ({
-  type: ScheduleActions.SET_SCHEDULE,
+export const setScheduleSuccess = (schedule: Schedule) => ({
+  type: ScheduleActions.SET_SCHEDULE_SUCCESS,
   payload: schedule,
 });
 
-export const startCommonScheduleLoad = () => ({
-  type: ScheduleActions.START_COMMON_SCHEDULE_LOAD,
+export const setScheduleFailture = (error: Error) => ({
+  type: ScheduleActions.SET_SCHEDULE_FAILTURE,
+  payload: error,
+});
+
+export const startLoad = () => ({
+  type: ScheduleActions.START_LOAD,
 });
