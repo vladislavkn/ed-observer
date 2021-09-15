@@ -46,6 +46,7 @@ export type ScheduleDTO = {
 export type Homework = {
   userId: string;
   text: string;
+  isDraft?: boolean;
 };
 
 export type CommonScheduleDayLesson = {
