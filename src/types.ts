@@ -50,24 +50,34 @@ export type Homework = {
 
 export type CommonScheduleDayLesson = {
   name: string;
-  id: string;
   type: "lection" | "practice" | "lab";
   time: string;
   teacher?: string;
   adress?: string;
-  homework?: string;
   order?: number;
 };
 
-export type CommonScheduleDay = CommonScheduleDayLesson[];
-
-export type Schedule = CommonScheduleDay[];
+export type CommonScheduleDay = {
+  lessons: CommonScheduleDayLesson[];
+};
 
 export type CommonSchedule = {
-  odd: Schedule;
-  even: Schedule;
+  odd: CommonScheduleDay[];
+  even: CommonScheduleDay[];
 };
 
 export type ActionWithPayload<A, T> = Action<A> & {
   payload: T;
 };
+
+export type ScheduleDayLesson = CommonScheduleDayLesson & {
+  homework: string;
+  id: string;
+};
+
+export type ScheduleDay = {
+  lessons: ScheduleDayLesson[];
+  date: Date;
+};
+
+export type Schedule = ScheduleDay[];
