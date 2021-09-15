@@ -134,3 +134,10 @@ export const createEventEmmiter = () => {
 
   return { subscribe, emit };
 };
+
+export default async function asyncMap<T extends Array<any>>(
+  array: T,
+  callback: (value: T[number], index: number) => Promise<any>
+) {
+  return Promise.all(array.map(callback));
+}
