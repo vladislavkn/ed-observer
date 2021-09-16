@@ -4,25 +4,32 @@ import { useUser } from "../hooks/user";
 import { ScheduleDayLesson } from "../types";
 import Linkify from "react-linkify";
 import { usePreview } from "../hooks/editor";
+import TextareaAutosize from "react-textarea-autosize";
+import { FormEvent } from "react";
 
 const ScheduleDayCardLessonText: React.FC<{
   lesson: ScheduleDayLesson;
 }> = ({ lesson }) => {
   const user = useUser();
   const preview = usePreview();
+  const showTextarea = user && !preview;
   const dispatch = useDispatch();
-  const onChange = (text: string) =>
-    dispatch(setLessonHomework({ ...lesson.homework, text }, lesson.id));
+  const onChange = (e: FormEvent<HTMLTextAreaElement>) =>
+    dispatch(
+      setLessonHomework(
+        { ...lesson.homework, text: (e.target as HTMLTextAreaElement).value },
+        lesson.id
+      )
+    );
 
-  return user && !preview ? (
-    <textarea
-      className="w-100 border-0"
+  return showTextarea ? (
+    <TextareaAutosize
+      className="w-100 border-0 p-0 overflow-hidden"
       style={{ outline: "none" }}
       placeholder="Домашнее задание"
-      rows={3}
       value={lesson.homework.text}
-      onChange={(e) => onChange(e.target.value)}
-    ></textarea>
+      onChange={onChange}
+    ></TextareaAutosize>
   ) : (
     <Linkify
       componentDecorator={(url, text) => (
