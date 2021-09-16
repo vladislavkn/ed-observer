@@ -23,20 +23,22 @@ const EditPagePanel: React.FC = () => {
   return (
     <div className="mb-4 card border-0 bg-light">
       <div className="card-body d-flex justify-content-between flex-column flex-sm-row align-items-stretch">
-        <div className="d-flex align-items-baseline justify-content-center">
-          <h5 className="card-title mb-4 mb-sm-0 me-1">
-            {user?.email ?? "Dungeon master"}
-          </h5>
-          <button
-            className="btn btn-link"
-            onClick={onLogOut}
-            ref={logoutTooltipRef}
-          >
-            <i className="bi bi-box-arrow-right"></i>
-          </button>
+        <div className="d-flex align-items-center justify-content-center">
+          <div className="d-flex align-items-baseline">
+            <h5 className="card-title mb-4 mb-sm-0 me-1">
+              {user?.email ?? "Dungeon master"}
+            </h5>
+            <button
+              className="btn btn-link"
+              onClick={onLogOut}
+              ref={logoutTooltipRef}
+            >
+              <i className="bi bi-box-arrow-right"></i>
+            </button>
+          </div>
         </div>
-        <div className="d-grid gap-2 d-md-block">
-          <button className="btn btn-primary me-md-2" onClick={onSave}>
+        <div className="d-grid gap-2 d-lg-block">
+          <button className="btn btn-primary me-lg-2" onClick={onSave}>
             <i className="bi bi-save me-2"></i>
             Сохранить измененния
           </button>

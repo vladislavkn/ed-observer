@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
           <p className="mb-0">Кнышов Владислав | {new Date().getFullYear()}</p>
         </div>
         <div className="justify-content-center align-items-center d-flex">
-          <p className="mb-0 text- center">
+          <p className="mb-0 text-center">
             <strong>Внимание! Не является официальным источником данных</strong>
           </p>
         </div>

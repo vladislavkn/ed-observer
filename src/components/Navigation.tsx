@@ -36,7 +36,7 @@ const Navigation: React.FC = () => {
         </a>
 
         <button
-          className="navbar-toggler"
+          className="navbar-toggler border-0"
           type="button"
           aria-label="Toggle navigation"
           onClick={toggle}
