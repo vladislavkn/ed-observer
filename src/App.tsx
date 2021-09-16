@@ -6,6 +6,7 @@ import AppAuthController from "./components/AppAuthController";
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
 import LoginPage from "./pages/LoginPage";
+import NotFound from "./pages/NotFound";
 import SchedulePage from "./pages/SchedulePage";
 import store from "./store";
 
@@ -14,10 +15,13 @@ const App: React.FC = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Navigation />
-        <Switch>
-          <Route path="/login" component={LoginPage} exact />
-          <Route path="/" component={SchedulePage} exact />
-        </Switch>
+        <div className="container my-4">
+          <Switch>
+            <Route path="/login" component={LoginPage} exact />
+            <Route path="/" component={SchedulePage} exact />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
         <Footer />
       </BrowserRouter>
       <AppAuthController />
