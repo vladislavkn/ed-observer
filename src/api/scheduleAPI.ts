@@ -67,7 +67,7 @@ class ScheduleAPI {
   ) {
     return `${date.getDate()}_${date.getMonth()}_${date.getFullYear()}_${transliterate(
       groupName
-    )}_${lesson.time}`;
+    )}_${lesson.time}_${transliterate(lesson.name)}`;
   }
 
   private getCurrentWeekMonday(date: Date): Date {
