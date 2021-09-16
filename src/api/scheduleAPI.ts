@@ -16,11 +16,12 @@ class ScheduleAPI {
     groupName: string
   ): Promise<Schedule> {
     const currentWeekMonday = this.getCurrentWeekMonday(date);
-    const weekParity = this.getCurrentWeekParity(currentWeekMonday);
+    const weekNumber = this.getCurrentWeekNumber(currentWeekMonday);
 
     return await this.getSchedule(
-      commonSchedule[weekParity === 0 ? "even" : "odd"],
+      commonSchedule,
       currentWeekMonday,
+      weekNumber,
       groupName
     );
   }
@@ -28,6 +29,7 @@ class ScheduleAPI {
   private async getSchedule(
     days: CommonScheduleDay[],
     mondayDate: Date,
+    weekNumber: number,
     groupName: string
   ): Promise<Schedule> {
     return asyncMap(days, async (day, index) => {
@@ -35,17 +37,28 @@ class ScheduleAPI {
 
       return {
         date: dayDate,
-        lessons: await asyncMap(day.lessons, async (lesson) => {
-          const lessonId = this.getLessonId(lesson, groupName, dayDate);
+        lessons: await asyncMap(
+          this.getLessonsForWeek(day.lessons, weekNumber),
+          async (lesson) => {
+            const lessonId = this.getLessonId(lesson, groupName, dayDate);
 
-          return {
-            ...lesson,
-            id: lessonId,
-            homework: await new LessonHomework(lessonId).fetchHomework(),
-          } as ScheduleDayLesson;
-        }),
+            return {
+              ...lesson,
+              id: lessonId,
+              homework: await new LessonHomework(lessonId).fetchHomework(),
+            } as ScheduleDayLesson;
+          }
+        ),
       };
     });
+  }
+
+  private getLessonsForWeek(
+    lessons: CommonScheduleDayLesson[],
+    weekNumber: number
+  ) {
+    console.log(lessons);
+    return lessons.filter((lesson) => lesson.weeks.includes(weekNumber));
   }
 
   private getLessonId(
@@ -62,7 +75,7 @@ class ScheduleAPI {
     return subDays(date, Math.abs(1 - date.getDay()));
   }
 
-  private getCurrentWeekParity(date: Date): number {
+  private getCurrentWeekNumber(date: Date): number {
     const septemberFirst = new Date(`09.01.${new Date().getFullYear()}`);
 
     const daysFromFirstMonday = differenceInDays(
@@ -71,7 +84,7 @@ class ScheduleAPI {
     );
 
     const weeksFromSeptemberFirst = Math.floor(daysFromFirstMonday / 7) + 1;
-    return weeksFromSeptemberFirst % 2;
+    return weeksFromSeptemberFirst;
   }
 }
 
