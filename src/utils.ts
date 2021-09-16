@@ -111,28 +111,13 @@ export const transliterate = (word: string) => {
   a["ь"] = "'";
   a["б"] = "b";
   a["ю"] = "yu";
+  a[" "] = "_";
+  a["-"] = "_";
+  a["/"] = "_";
 
   for (let letter of word) answer += a[letter] ?? letter;
 
   return answer;
-};
-
-export const createEventEmmiter = () => {
-  const listeners = new Map<string, Set<(...args: any[]) => any>>();
-
-  const subscribe = (event: string, callback: (...args: any[]) => void) => {
-    if (!listeners.has(event)) listeners.set(event, new Set());
-    listeners.get(event)?.add(callback);
-
-    return () => {
-      listeners.get(event)?.delete(callback);
-    };
-  };
-
-  const emit = (event: string, ...args: any[]) =>
-    listeners.get(event)?.forEach((listener) => listener(...args));
-
-  return { subscribe, emit };
 };
 
 export default async function asyncMap<T extends Array<any>>(
