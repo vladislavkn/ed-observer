@@ -39,16 +39,14 @@ export type CommonScheduleDayLesson = {
   teacher?: string;
   adress?: string;
   order?: number;
+  weeks: number[];
 };
 
 export type CommonScheduleDay = {
   lessons: CommonScheduleDayLesson[];
 };
 
-export type CommonSchedule = {
-  odd: CommonScheduleDay[];
-  even: CommonScheduleDay[];
-};
+export type CommonSchedule = CommonScheduleDay[];
 
 export type ActionWithPayload<A, T> = Action<A> & {
   payload: T;
