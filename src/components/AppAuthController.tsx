@@ -13,10 +13,8 @@ const AppAuthController: React.FC = () => {
       auth,
       (user) => {
         if (user) {
-          toast.success(`Вы вошли в аккаунт как ${user.email}`);
           dispatch(setUserSuccess(user));
         } else {
-          toast.success(`Вы успешно вышли из аккаунта`);
           dispatch(removeUser());
         }
       },
