@@ -14,7 +14,13 @@ class CommonScheduleAPI {
   }
 
   private fetchScheduleDTO(groupName: string): Promise<ScheduleDTO> {
-    return fetch(this.getAPIUrl(groupName)).then((res) => res.json());
+    return fetch(this.getAPIUrl(groupName)).then((res) => {
+      if(!res.ok)) {
+        throw new Error(`Неполадки с сервером: код ${res.status}`)
+      } else {
+        return res.json();
+      }
+    });
   }
 
   private getAPIUrl(groupName: string) {
@@ -46,9 +52,15 @@ class CommonScheduleAPI {
     parity: number
   ): CommonScheduleDay {
     return {
-      lessons: scheduleDayDTO.lessons.map((lessonVariants, index) =>
-        this.getCommonScheduleDayLessonByVariant(lessonVariants, index, parity)
-      ),
+      lessons: scheduleDayDTO.lessons
+        .map((lessonVariants, index) =>
+          this.getCommonScheduleDayLessonByVariant(
+            lessonVariants,
+            index,
+            parity
+          )
+        )
+        .filter(Boolean) as unknown as CommonScheduleDayLesson[],
     };
   }
 
@@ -56,10 +68,11 @@ class CommonScheduleAPI {
     lessonVariants: ScheduleLessonDTO[],
     order: number,
     parity: number
-  ) {
+  ): CommonScheduleDayLesson | null {
     const lesson = lessonVariants.filter(
       (lesson) => lesson.weeks[0] % 2 === parity
     )[0];
+    if (!lesson) return null;
 
     const lessonTypes: Record<
       ScheduleLessonDTO["types"],

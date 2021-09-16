@@ -42,7 +42,7 @@ class ScheduleAPI {
             ...lesson,
             id: lessonId,
             homework: await new LessonHomework(lessonId).fetchHomework(),
-          };
+          } as ScheduleDayLesson;
         }),
       };
     });
