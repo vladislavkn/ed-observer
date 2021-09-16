@@ -5,12 +5,12 @@ export const useTooltip = <T extends HTMLElement>(
   options: Partial<Tooltip.Options> | undefined
 ) => {
   const ref = useRef<T>(null);
-  const tooltip = useRef<Tooltip | null>(null);
 
   useEffect(() => {
-    if (ref.current === null || tooltip.current !== null) return;
-    tooltip.current = new Tooltip(ref.current as Element, options);
-  }, [ref, tooltip, options]);
+    if (ref.current === null) return;
+    const tooltip = new Tooltip(ref.current as Element, options);
+    return () => tooltip.dispose();
+  }, [ref, options]);
 
   return ref;
 };
