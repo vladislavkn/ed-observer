@@ -15,8 +15,8 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Navigation />
         <Switch>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/" component={SchedulePage} />
+          <Route path="/login" component={LoginPage} exact />
+          <Route path="/" component={SchedulePage} exact />
         </Switch>
         <Footer />
       </BrowserRouter>
