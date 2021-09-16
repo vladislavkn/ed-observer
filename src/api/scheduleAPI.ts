@@ -57,7 +57,6 @@ class ScheduleAPI {
     lessons: CommonScheduleDayLesson[],
     weekNumber: number
   ) {
-    console.log(lessons);
     return lessons.filter((lesson) => lesson.weeks.includes(weekNumber));
   }
 
