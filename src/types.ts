@@ -1,22 +1,5 @@
 import { Action } from "redux";
 
-export type Lesson = {
-  name: string;
-  id: string;
-  teacher?: string;
-  adress?: string;
-  homework?: string;
-  type: "lection" | "practice" | "lab";
-  time: string;
-};
-
-export type Weekday = {
-  isOnline?: boolean;
-  date: Date;
-  lessons: Lesson[];
-  id: number | string;
-};
-
 export type ScheduleLessonDTO = {
   name: string;
   teachers: string[];
@@ -72,7 +55,7 @@ export type ActionWithPayload<A, T> = Action<A> & {
 };
 
 export type ScheduleDayLesson = CommonScheduleDayLesson & {
-  homework: string;
+  homework: Homework;
   id: string;
 };
 
