@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import { auth } from "./firebase";
 import { browserLocalPersistence, setPersistence } from "@firebase/auth";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 Promise.all([setPersistence(auth, browserLocalPersistence)]).then(() =>
   ReactDOM.render(
@@ -15,3 +16,5 @@ Promise.all([setPersistence(auth, browserLocalPersistence)]).then(() =>
     document.getElementById("root")
   )
 );
+
+serviceWorkerRegistration.register();
