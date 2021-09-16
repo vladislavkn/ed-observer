@@ -1,9 +1,12 @@
-import weekdaysApi from "../api/weekdaysApi";
+import { useDispatch } from "react-redux";
+import { fetchSchedule } from "../actions/schedule";
+import { useCurrentMonday } from "../hooks/schedule";
 
 const Footer: React.FC = () => {
-  const revalidate = async () => {
-    await weekdaysApi.revalidate("ИНБО-01-21");
-    window.location.reload();
+  const dispatch = useDispatch();
+  const mondayDate = useCurrentMonday();
+  const revalidate = () => {
+    if (mondayDate) dispatch(fetchSchedule("ИНБО-01-21", mondayDate));
   };
 
   return (
