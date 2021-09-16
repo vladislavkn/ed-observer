@@ -6,7 +6,7 @@ import AppAuthController from "./components/AppAuthController";
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
 import LoginPage from "./pages/LoginPage";
-import WeekdaysPage from "./pages/WeekdaysPage";
+import SchedulePage from "./pages/SchedulePage";
 import store from "./store";
 
 const App: React.FC = () => {
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         <Navigation />
         <Switch>
           <Route path="/login" component={LoginPage} />
-          <Route path="/" component={WeekdaysPage} />
+          <Route path="/" component={SchedulePage} />
         </Switch>
         <Footer />
       </BrowserRouter>
