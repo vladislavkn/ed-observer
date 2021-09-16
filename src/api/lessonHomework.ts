@@ -14,7 +14,12 @@ export default class LessonHomework {
   public async fetchHomework(): Promise<Homework> {
     const doc = await getDoc(this.doc);
     if (doc.exists()) return doc.data();
-    return { text: "", userId: auth.currentUser?.uid ?? "", isDraft: true };
+    return {
+      text: "",
+      userId: auth.currentUser?.uid ?? "",
+      isDraft: true,
+      dateUpdated: new Date().toISOString(),
+    };
   }
 
   public async setHomework(homework: Homework): Promise<void> {
@@ -26,6 +31,7 @@ export default class LessonHomework {
       );
 
     homework.userId = auth.currentUser.uid;
+    homework.dateUpdated = new Date().toISOString();
     await setDoc(this.doc, homework);
   }
 

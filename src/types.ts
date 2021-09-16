@@ -30,6 +30,7 @@ export type Homework = {
   userId: string;
   text: string;
   isDraft?: boolean;
+  dateUpdated: string;
 };
 
 export type CommonScheduleDayLesson = {
