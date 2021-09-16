@@ -1,16 +1,22 @@
 import { FormEventHandler, useState } from "react";
-import { useHistory } from "react-router-dom";
-import authApi from "../api/authApi";
+import { useDispatch } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
+import { login } from "../actions/user";
+import { useUser } from "../hooks/user";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useUser();
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    authApi.login(email, password).then(() => history.push("/"));
+    dispatch(login(email, password, () => history.push("/")));
   };
+
+  if (user) return <Redirect to="/" />;
 
   return (
     <div className="container my-4">
