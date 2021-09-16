@@ -1,4 +1,4 @@
-import { ScheduleActions } from "../actions/schedule";
+import { ScheduleActions, setLessonHomework } from "../actions/schedule";
 import { ActionWithPayload, CommonSchedule, Schedule } from "../types";
 
 type ScheduleState = {
@@ -19,40 +19,47 @@ export default function scheduleReducer(
   state = initialState,
   action: ActionWithPayload<
     ScheduleActions,
-    CommonSchedule | Schedule | Error | undefined
+    | CommonSchedule
+    | Schedule
+    | Error
+    | ReturnType<typeof setLessonHomework>["payload"]
+    | undefined
   >
 ): ScheduleState {
   switch (action.type) {
-    case ScheduleActions.SET_COMMON_SCHEDULE_SUCCESS:
+    case ScheduleActions.SET_COMMON_SCHEDULE:
       return {
         ...state,
         commonSchedule: action.payload as CommonSchedule,
         error: null,
         loading: false,
       };
-    case ScheduleActions.SET_COMMON_SCHEDULE_FAILTURE:
-      return {
-        ...state,
-        commonSchedule: null,
-        error: action.payload as Error,
-        loading: false,
-      };
-    case ScheduleActions.START_LOAD:
-      return { ...state, error: null, loading: true };
-    case ScheduleActions.SET_SCHEDULE_SUCCESS:
+    case ScheduleActions.SET_SCHEDULE:
       return {
         ...state,
         schedule: action.payload as Schedule,
         error: null,
         loading: false,
       };
+    case ScheduleActions.START_LOAD:
+      return { ...state, schedule: null, error: null, loading: true };
+    case ScheduleActions.SET_FAILTURE:
+      return { ...state, error: action.payload as Error, loading: false };
+    case ScheduleActions.SET_LESSON_HOMEWORK:
+      const payload = action.payload as ReturnType<
+        typeof setLessonHomework
+      >["payload"];
 
-    case ScheduleActions.SET_SCHEDULE_FAILTURE:
       return {
         ...state,
-        schedule: null,
-        error: action.payload as Error,
-        loading: false,
+        schedule:
+          state.schedule?.map((day) => ({
+            ...day,
+            lessons: day.lessons.map((lesson) => {
+              if (lesson.id !== payload.lessonId) return lesson;
+              return { ...lesson, homework: payload.homework };
+            }),
+          })) ?? null,
       };
     default:
       return state;
