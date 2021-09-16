@@ -21,7 +21,7 @@ const WeekdaysPage: React.FC = () => {
   }, [dispatch, currentDay, commonSchedule]);
 
   return (
-    <div className="container my-4">
+    <>
       <EditPagePanel />
       <WeekdaySelector
         value={currentDay}
@@ -48,7 +48,7 @@ const WeekdaysPage: React.FC = () => {
             </div>
           ))}
       </div>
-    </div>
+    </>
   );
 };
 
