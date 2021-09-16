@@ -15,8 +15,8 @@ class CommonScheduleAPI {
 
   private fetchScheduleDTO(groupName: string): Promise<ScheduleDTO> {
     return fetch(this.getAPIUrl(groupName)).then((res) => {
-      if(!res.ok)) {
-        throw new Error(`Неполадки с сервером: код ${res.status}`)
+      if (!res.ok) {
+        throw new Error(`Неполадки с сервером: код ${res.status}`);
       } else {
         return res.json();
       }
