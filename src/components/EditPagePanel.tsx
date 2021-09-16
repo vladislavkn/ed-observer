@@ -1,14 +1,15 @@
-import authApi from "../api/authApi";
-import { homeworkEmmiter } from "../emmiters";
-import { useUser } from "../selectors/user";
+import { useDispatch } from "react-redux";
+import { saveLessonHomeworks } from "../actions/schedule";
+import { logout } from "../actions/user";
+import { useUser } from "../hooks/user";
 
 const EditPagePanel: React.FC = () => {
   const user = useUser();
+  const dispatch = useDispatch();
   if (!user) return null;
 
-  const onSave = () => homeworkEmmiter.emit("save");
-
-  const onLogOut = () => authApi.logout();
+  const onSave = () => dispatch(saveLessonHomeworks());
+  const onLogOut = () => dispatch(logout());
 
   return (
     <div className="mb-4 card border-0 bg-light">
