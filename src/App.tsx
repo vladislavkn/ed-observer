@@ -16,10 +16,10 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Navigation />
         <div
-          className="shadow-sm position-relative border-b"
+          className="shadow-sm position-relative border-b py-4"
           style={{ zIndex: 1 }}
         >
-          <div className="container pt-4">
+          <div className="container">
             <Switch>
               <Route path="/login" component={LoginPage} exact />
               <Route path="/" component={SchedulePage} exact />

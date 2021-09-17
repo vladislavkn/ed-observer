@@ -27,8 +27,7 @@ const Navigation: React.FC = () => {
 
   return (
     <nav
-      className="navbar navbar-expand-lg navbar-dark sticky-top"
-      style={{ backgroundColor: "var(--bs-primary)" }}
+      className="navbar navbar-expand-lg navbar-dark sticky-top bg-primary" 
     >
       <div className="container">
         <a className="navbar-brand" href="/">

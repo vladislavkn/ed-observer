@@ -27,14 +27,14 @@ const WeekdaysPage: React.FC = () => {
         value={currentDay}
         onChange={(value) => setCurrentDay(value)}
       />
-      <div className="row">
+      <div className="row" style={{ marginBottom: "-1.5rem" }}>
         {error && (
-          <div className="col">
+          <div className="col mb-4">
             <AppErrorFallback message={error.message} />
           </div>
         )}
         {loading && (
-          <div className="col">
+          <div className="col mb-4">
             <AppLoadingFallback />
           </div>
         )}
