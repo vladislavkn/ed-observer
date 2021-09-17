@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="border-top">
+    <footer className="bg-white ">
       <div className="container py-4">
         <div className="justify-content-center align-items-center d-flex mb-2">
           <button

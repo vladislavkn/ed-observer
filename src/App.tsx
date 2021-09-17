@@ -15,12 +15,17 @@ const App: React.FC = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Navigation />
-        <div className="container my-4">
-          <Switch>
-            <Route path="/login" component={LoginPage} exact />
-            <Route path="/" component={SchedulePage} exact />
-            <Route component={NotFound} />
-          </Switch>
+        <div
+          className="shadow-sm position-relative border-b"
+          style={{ zIndex: 1 }}
+        >
+          <div className="container pt-4">
+            <Switch>
+              <Route path="/login" component={LoginPage} exact />
+              <Route path="/" component={SchedulePage} exact />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
         </div>
         <Footer />
       </BrowserRouter>

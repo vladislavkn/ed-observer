@@ -15,10 +15,18 @@ const WeekdaySelector: React.FC<{
         {formatDayAndMonth(value)} - {formatDayAndMonth(addDays(value, 6))}
       </h6>
       <div className="btn-group btn-group-lg " role="group">
-        <button type="button" className="btn btn-light" onClick={handlePrev}>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={handlePrev}
+        >
           <i className="bi bi-arrow-left"></i>
         </button>
-        <button type="button" className="btn btn-light" onClick={handleNext}>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={handleNext}
+        >
           <i className="bi bi-arrow-right"></i>
         </button>
       </div>

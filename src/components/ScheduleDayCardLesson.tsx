@@ -4,7 +4,7 @@ import ScheduleDayCardLessonText from "./ScheduleDayCardLessonText";
 const ScheduleDayCardLesson: React.FC<{ lesson: ScheduleDayLesson }> = ({
   lesson,
 }) => (
-  <div className="card">
+  <div className="card shadow-sm">
     <div className="card-body">
       <h6 className="card-title">{lesson.name}</h6>
       <p className="card-text">

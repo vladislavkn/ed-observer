@@ -21,7 +21,7 @@ const EditPagePanel: React.FC = () => {
   const handleTogglePreview = () => dispatch(setPreview(!preview));
 
   return (
-    <div className="mb-4 card border-0 bg-light">
+    <div className="mb-4 card shadow-sm">
       <div className="card-body d-flex justify-content-between flex-column flex-sm-row align-items-stretch">
         <div className="d-flex align-items-center justify-content-center">
           <div className="d-flex align-items-baseline">
