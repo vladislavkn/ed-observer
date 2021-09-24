@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import EditPagePanel from "../components/EditPagePanel";
 import SchedulePageContent from "../components/SchedulePageContent";
-import WeekdaySelector from "../components/WeekdaySelector";
+import ScheduleSelector from "../components/ScheduleSelector";
 import { useAppSelector } from "../store";
 import {
   fetchHomework,
@@ -27,7 +27,7 @@ const WeekdaysPage: React.FC = () => {
     if (!commonSchedule) return;
     dispatch(
       fetchHomework({
-        groupName: "",
+        groupName: "ИНБО-01-21",
         date: currentDay,
         commonSchedule,
       })
@@ -37,10 +37,7 @@ const WeekdaysPage: React.FC = () => {
   return (
     <>
       <EditPagePanel />
-      <WeekdaySelector
-        value={currentDay}
-        onChange={(value) => setCurrentDay(value)}
-      />
+      <ScheduleSelector value={currentDay} onChange={setCurrentDay} />
       <div className="row" style={{ marginBottom: "-1.5rem" }}>
         <SchedulePageContent
           error={error}

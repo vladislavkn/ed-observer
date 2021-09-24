@@ -2,7 +2,7 @@ import { addDays, subDays } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
 import { formatDayAndMonth } from "../utils";
 
-const WeekdaySelector: React.FC<{
+const ScheduleSelector: React.FC<{
   value: Date;
   onChange: Dispatch<SetStateAction<Date>>;
 }> = ({ value, onChange }) => {
@@ -34,4 +34,4 @@ const WeekdaySelector: React.FC<{
   );
 };
 
-export default WeekdaySelector;
+export default ScheduleSelector;
