@@ -1,6 +1,6 @@
 import { doc, DocumentReference, getDoc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../firebase";
-import { Homework, ScheduleDayLesson, Writeable } from "../types";
+import { Homework, ScheduleDayLesson } from "../types";
 
 export default class LessonHomework {
   private static homeworkDocs: Record<ScheduleDayLesson["id"], LessonHomework> =
