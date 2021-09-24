@@ -1,25 +1,30 @@
 import { useDispatch } from "react-redux";
-import { setLessonHomework } from "../actions/schedule";
-import { useUser } from "../hooks/user";
 import { ScheduleDayLesson } from "../types";
 import Linkify from "react-linkify";
-import { usePreview } from "../hooks/editor";
 import TextareaAutosize from "react-textarea-autosize";
 import { FormEvent } from "react";
+import { useAppSelector } from "../store";
+import { selectUser } from "../store/auth";
+import { selectIsPreview } from "../store/editor";
+import { setLessonHomework } from "../store/schedule";
 
 const ScheduleDayCardLessonText: React.FC<{
   lesson: ScheduleDayLesson;
 }> = ({ lesson }) => {
-  const user = useUser();
-  const preview = usePreview();
-  const showTextarea = user && !preview;
+  const user = useAppSelector(selectUser);
+  const preview = useAppSelector(selectIsPreview);
   const dispatch = useDispatch();
+
+  const showTextarea = user && !preview;
   const onChange = (e: FormEvent<HTMLTextAreaElement>) =>
     dispatch(
-      setLessonHomework(
-        { ...lesson.homework, text: (e.target as HTMLTextAreaElement).value },
-        lesson.id
-      )
+      setLessonHomework({
+        homework: {
+          ...lesson.homework,
+          text: (e.target as HTMLTextAreaElement).value,
+        },
+        lessonId: lesson.id,
+      })
     );
 
   return showTextarea ? (

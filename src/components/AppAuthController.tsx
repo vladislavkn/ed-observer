@@ -2,8 +2,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { setUserSuccess, removeUser, setUserFailture } from "../actions/user";
 import { auth } from "../firebase";
+import { setUser } from "../store/auth";
 
 const AppAuthController: React.FC = () => {
   const dispatch = useDispatch();
@@ -11,16 +11,10 @@ const AppAuthController: React.FC = () => {
   useEffect(() => {
     onAuthStateChanged(
       auth,
-      (user) => {
-        if (user) {
-          dispatch(setUserSuccess(user));
-        } else {
-          dispatch(removeUser());
-        }
-      },
+      (user) => dispatch(setUser(user)),
       (error: Error) => {
         toast.error(`Ошибка: ${error.message}`);
-        dispatch(setUserFailture(error));
+        dispatch(setUser(null));
       }
     );
   });

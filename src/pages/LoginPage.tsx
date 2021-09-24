@@ -1,19 +1,18 @@
 import { FormEventHandler, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
-import { login } from "../actions/user";
-import { useUser } from "../hooks/user";
+import { Redirect } from "react-router-dom";
+import { useAppSelector } from "../store";
+import { selectUser, signIn } from "../store/auth";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
   const dispatch = useDispatch();
-  const user = useUser();
+  const user = useAppSelector(selectUser);
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    dispatch(login(email, password, () => history.push("/")));
+    dispatch(signIn({ email, password }));
   };
 
   if (user) return <Redirect to="/" />;

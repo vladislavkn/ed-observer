@@ -1,14 +1,13 @@
 import { useDispatch } from "react-redux";
-import { setPreview } from "../actions/editor";
-import { saveLessonHomeworks } from "../actions/schedule";
-import { logout } from "../actions/user";
-import { usePreview } from "../hooks/editor";
 import { useTooltip } from "../hooks/tooltip";
-import { useUser } from "../hooks/user";
+import { useAppSelector } from "../store";
+import { selectUser, signOut } from "../store/auth";
+import { selectIsPreview, togglePreview } from "../store/editor";
+import { saveHomeworks } from "../store/schedule";
 
 const EditPagePanel: React.FC = () => {
-  const user = useUser();
-  const preview = usePreview();
+  const user = useAppSelector(selectUser);
+  const preview = useAppSelector(selectIsPreview);
   const dispatch = useDispatch();
   const logoutTooltipRef = useTooltip<HTMLButtonElement>({
     title: "Выйти из аккаунта",
@@ -16,9 +15,9 @@ const EditPagePanel: React.FC = () => {
 
   if (!user) return null;
 
-  const onSave = () => dispatch(saveLessonHomeworks());
-  const onLogOut = () => dispatch(logout());
-  const handleTogglePreview = () => dispatch(setPreview(!preview));
+  const onSave = () => dispatch(saveHomeworks());
+  const onLogOut = () => dispatch(signOut());
+  const handleTogglePreview = () => dispatch(togglePreview());
 
   return (
     <div className="mb-4 card shadow-sm">

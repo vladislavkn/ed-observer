@@ -1,23 +1,39 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchAllSchedule, fetchSchedule } from "../actions/schedule";
 import AppErrorFallback from "../components/AppErrorFallback";
 import AppLoadingFallback from "../components/AppLoadingFallback";
 import EditPagePanel from "../components/EditPagePanel";
 import ScheduleDayCard from "../components/ScheduleDayCard";
 import WeekdaySelector from "../components/WeekdaySelector";
-import { useScheduleState } from "../hooks/schedule";
+import { useAppSelector } from "../store";
+import {
+  fetchHomework,
+  fetchSchedule,
+  selectScheduleState,
+} from "../store/schedule";
 import { getMonday } from "../utils";
 
 const WeekdaysPage: React.FC = () => {
   const [currentDay, setCurrentDay] = useState(getMonday(new Date()));
   const dispatch = useDispatch();
-  const { schedule, loading, error, commonSchedule } = useScheduleState();
+  const { schedule, isLoading, error, commonSchedule } =
+    useAppSelector(selectScheduleState);
 
   useEffect(() => {
-    if (!commonSchedule) dispatch(fetchAllSchedule("ИНБО-01-21", currentDay));
-    else dispatch(fetchSchedule("ИНБО-01-21", currentDay));
+    if (commonSchedule) return;
+    dispatch(fetchSchedule("ИНБО-01-21"));
+  }, [dispatch, commonSchedule]);
+
+  useEffect(() => {
+    if (!commonSchedule) return;
+    dispatch(
+      fetchHomework({
+        groupName: "",
+        date: currentDay,
+        commonSchedule,
+      })
+    );
   }, [dispatch, currentDay, commonSchedule]);
 
   return (
@@ -33,7 +49,7 @@ const WeekdaysPage: React.FC = () => {
             <AppErrorFallback message={error.message} />
           </div>
         )}
-        {loading && (
+        {isLoading && (
           <div className="col mb-4">
             <AppLoadingFallback />
           </div>

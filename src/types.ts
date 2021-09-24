@@ -64,3 +64,8 @@ export type ScheduleDay = {
 };
 
 export type Schedule = ScheduleDay[];
+
+export type UserSignInData = {
+  email: string;
+  password: string;
+};

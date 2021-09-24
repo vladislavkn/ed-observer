@@ -1,9 +1,10 @@
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { UserSignInData } from "../types";
 
 class AuthApi {
-  async login(email: string, password: string) {
-    return signInWithEmailAndPassword(auth, email, password);
+  async login(paylaod: UserSignInData) {
+    return signInWithEmailAndPassword(auth, paylaod.email, paylaod.password);
   }
 
   async logout() {

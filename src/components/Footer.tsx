@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
-import { fetchSchedule } from "../actions/schedule";
-import { useCurrentMonday } from "../hooks/schedule";
+import { useAppSelector } from "../store";
+import { fetchSchedule, selectMonday } from "../store/schedule";
 
 const Footer: React.FC = () => {
   const dispatch = useDispatch();
-  const mondayDate = useCurrentMonday();
+  const mondayDate = useAppSelector(selectMonday);
+
   const revalidate = () => {
-    if (mondayDate) dispatch(fetchSchedule("ИНБО-01-21", mondayDate));
+    if (!mondayDate) return;
+    dispatch(fetchSchedule("ИНБО-01-21"));
   };
 
   return (
@@ -21,7 +23,10 @@ const Footer: React.FC = () => {
             <i className="bi bi-arrow-repeat"></i>
             {" Обновить"}
           </button>
-          <p className="mb-0">Кнышов Владислав | {new Date().getFullYear()}</p>
+          <p className="mb-0">
+            <a href="https://t.me/Soup_master">По всем вопросам</a> |
+            {" " + new Date().getFullYear()}
+          </p>
         </div>
         <div className="justify-content-center align-items-center d-flex">
           <p className="mb-0 text-center">
