@@ -1,6 +1,6 @@
 import { doc, DocumentReference, getDoc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../firebase";
-import { Homework, ScheduleDayLesson } from "../types";
+import { Homework, ScheduleDayLesson, Writeable } from "../types";
 
 export default class LessonHomework {
   private static homeworkDocs: Record<ScheduleDayLesson["id"], LessonHomework> =
@@ -30,9 +30,11 @@ export default class LessonHomework {
         "Незарегестрированный пользователь не может сохранять домашние задания"
       );
 
-    homework.userId = auth.currentUser.uid;
-    homework.dateUpdated = new Date().toISOString();
-    await setDoc(this.doc, homework);
+    await setDoc(this.doc, {
+      ...homework,
+      userId: auth.currentUser.uid,
+      dateUpdated: new Date().toISOString(),
+    });
   }
 
   private get doc() {
