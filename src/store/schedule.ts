@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { RootState } from ".";
 import commonScheduleAPI from "../api/commonScheduleAPI";
 import LessonHomework from "../api/lessonHomework";
 import scheduleAPI from "../api/scheduleAPI";
@@ -30,7 +31,7 @@ export const fetchHomework = createAsyncThunk(
   async (options: FetchHomeworkOptions, thunkAPI) => {
     thunkAPI.dispatch(setLoading(true));
     try {
-      const state = thunkAPI.getState() as ScheduleState;
+      const { schedule: state } = thunkAPI.getState() as RootState;
 
       const commonSchedule = options.commonSchedule ?? state.commonSchedule;
       if (!commonSchedule) throw new Error("Расписание не загружено");
@@ -84,7 +85,7 @@ export const saveHomeworks = createAsyncThunk(
   "schedule/saveHomeworks",
   async (_, thunkAPI) => {
     try {
-      const state = thunkAPI.getState() as ScheduleState;
+      const { schedule: state } = thunkAPI.getState() as RootState;
       if (!state.schedule)
         throw new Error(
           "Невозможно сохранить домашние задания - расписание не загружено"
@@ -148,7 +149,7 @@ const scheduleSlice = createSlice({
         });
       });
 
-      if (!dayIndex || !lessonIndex) return;
+      if (dayIndex === undefined || lessonIndex === undefined) return;
       state.schedule[dayIndex].lessons[lessonIndex].homework =
         action.payload.homework;
     },

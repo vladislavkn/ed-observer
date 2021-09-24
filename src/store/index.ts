@@ -6,6 +6,10 @@ import schedule from "./schedule";
 
 const store = configureStore({
   reducer: { editor, auth, schedule },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;
