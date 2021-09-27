@@ -24,7 +24,10 @@ export default class LessonHomework {
 
   public async setHomework(homework: Homework): Promise<void> {
     if (homework.isDraft && homework.text.length === 0) return;
-    if (homework.hasOwnProperty("isDraft")) delete homework.isDraft;
+    if (homework.hasOwnProperty("isDraft")) {
+      const { isDraft, ...homeworkWithoutDraftField } = homework;
+      homework = homeworkWithoutDraftField;
+    }
     if (!auth.currentUser)
       throw new Error(
         "Незарегестрированный пользователь не может сохранять домашние задания"
