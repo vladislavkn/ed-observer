@@ -14,13 +14,12 @@ import { getMonday } from "../utils";
 
 const WeekdaysPage: React.FC = () => {
   const [currentDay, setCurrentDay] = useState(getMonday(new Date()));
-  const dispatch = useDispatch();
   const { schedule, isLoading, error, commonSchedule } =
     useAppSelector(selectScheduleState);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (commonSchedule) return;
-    dispatch(fetchSchedule("ИНБО-01-21"));
+    if (!commonSchedule) dispatch(fetchSchedule("ИНБО-01-21"));
   }, [dispatch, commonSchedule]);
 
   useEffect(() => {

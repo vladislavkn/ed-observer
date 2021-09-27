@@ -4,13 +4,14 @@ import { useEffect, useRef } from "react";
 export const useTooltip = <T extends HTMLElement>(
   options: Partial<Tooltip.Options> | undefined
 ) => {
-  const ref = useRef<T>(null);
+  const elementRef = useRef<T>(null);
 
   useEffect(() => {
-    if (ref.current === null) return;
-    const tooltip = new Tooltip(ref.current as Element, options);
-    return () => tooltip.dispose();
-  }, [ref, options]);
+    if (elementRef.current === null) return;
+    const tooltip = new Tooltip(elementRef.current as HTMLElement, options);
 
-  return ref;
+    return () => tooltip.dispose();
+  }, [elementRef, options]);
+
+  return elementRef;
 };
