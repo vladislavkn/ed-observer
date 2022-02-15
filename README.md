@@ -3,7 +3,7 @@ Online schedule with homework for my student group at RTU MIREA University. The 
 
 ## 🚀 Setup & launch
 ```
-git clone git@github.com:vladislavkn/ed-observer.git
+git clone https://github.com/vladislavkn/ed-observer.git
 cd ed-observer
 yarn
 yarn start
